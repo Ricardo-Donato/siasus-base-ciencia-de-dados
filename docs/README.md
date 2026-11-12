@@ -14,4 +14,11 @@
 </p>
 
 ## Pergunta norteadora
-Como transformar os dados do SIASUS em informações que permitam compreender a produção ambulatorial, identificar diferenças e possíveis problemas nos serviços de saúde e subsidiar o planejamento e a tomada de decisão da Secretaria Municipal de Saúde de Ijuí?
+<p>
+  Como transformar os dados do SIASUS em informações que permitam compreender a produção ambulatorial, identificar diferenças e possíveis problemas nos serviços de saúde e subsidiar o planejamento e a tomada de decisão da Secretaria Municipal de Saúde de Ijuí?
+</p>
+
+## Objetivo
+<p>
+  Desenvolver uma solução de análise de dados capaz de produzir indicadores, análises e representações gráficas que auxiliem o planejamento, o monitoramento e a avaliação dos serviços ambulatoriais de Ijuí e da região. O trabalho será desenvolvido em três etapas interdependentes, distribuídas em três aulas práticas.
+</p>
