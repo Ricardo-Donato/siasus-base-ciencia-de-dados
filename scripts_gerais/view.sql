@@ -21,7 +21,8 @@ SELECT
 
     -- 5. PERFIL DEMOGRÁFICO
     pa.pa_sexo,
-    pa.pa_idade, 
+    pa.pa_idade,
+    pa.pa_flidade,
 
     -- 6. DIAGNÓSTICO PRINCIPAL
     pa.pa_cidpri,
