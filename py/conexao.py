@@ -1,4 +1,6 @@
 # conexao.py
+import traceback
+
 from getpass import getpass
 from mysql.connector import connect, Error
 
@@ -13,3 +15,4 @@ def usar_conexao(acao):
             return acao(connection)
     except Error as e:
         print("Ocorreu um erro ao conectar com o BD: ", e)
+        traceback.print_exc()

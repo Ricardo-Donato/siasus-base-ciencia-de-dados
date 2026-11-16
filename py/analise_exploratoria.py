@@ -34,9 +34,14 @@ COLUNAS_INDICADORES = [
 def carregar_dados(connection) -> pd.DataFrame:
     """Carrega os registros da view de produção dos estabelecimentos de Ijuí."""
     consulta = "SELECT * FROM dbsia.pa_ijui"
-    with connection.cursor() as cursor:
+    # Cursor bufferizado consome o resultado no execute(), evitando deixar
+    # linhas pendentes no conector ao fechar o cursor/conexão. A view pode
+    # retornar muitos registros; o DataFrame já mantém o resultado em memória.
+    with connection.cursor(buffered=True) as cursor:
         cursor.execute(consulta)
-        return pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
+        colunas = cursor.column_names
+        registros = cursor.fetchall()
+    return pd.DataFrame(registros, columns=colunas)
 
 
 def preparar_dados(tabela: pd.DataFrame) -> pd.DataFrame:
