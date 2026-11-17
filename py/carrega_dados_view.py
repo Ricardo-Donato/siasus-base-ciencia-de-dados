@@ -9,6 +9,4 @@ def carregar_dados(connection):
 
 tabela = conexao.usar_conexao(carregar_dados)
 
-# display está retornando undefined, ver com o professor
-# display(tabela.head(10))
 print(tabela.head(10))
