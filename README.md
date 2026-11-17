@@ -16,7 +16,12 @@ gestão municipal de saúde de Ijuí/RS.
 - `scripts_gerais/view.sql`: cria a view `dbsia.pa_ijui`, com produção dos
   estabelecimentos localizados em Ijuí e dimensões descritivas.
 - `py/analise_exploratoria.py`: exploração inicial e resumos por período,
-  estabelecimento, procedimento, sexo, diagnóstico e município de origem.
+  estabelecimento, procedimento, ocupação, gasto médio, sexo, diagnóstico e
+  município de origem.
+- `py/analise_diagnosticos.py`, `py/analise_perfil_demografico.py` e
+  `py/analise_areas_criticas.py`: análises complementares e gráficos.
+- `py/preparacao_dados.py` e `py/carrega_dados_view.py`: preparação e carga
+  reutilizável dos dados da view pelos scripts complementares.
 - `py/conexao.py`: conexão local com MySQL usada pelos scripts Python.
 - `arquivos_convertidos/`: tabelas auxiliares convertidas para CSV, DBF, DBC e
   SQL.
@@ -52,7 +57,7 @@ INFILE`.
 Instale as dependências em um ambiente Python:
 
 ```bash
-python -m pip install pandas mysql-connector-python
+python -m pip install pandas mysql-connector-python matplotlib seaborn
 ```
 
 Depois, na pasta `py/`, execute:
@@ -62,9 +67,9 @@ python analise_exploratoria.py
 ```
 
 O script pede o usuário e a senha do MySQL local e consulta `dbsia.pa_ijui`.
-Ele imprime os resumos no terminal e não altera registros no banco. A idade é
-mantida como código nesta exploração; sua conversão em faixa etária deve
-considerar também `pa_flidade`.
+Ele imprime os resumos no terminal e não altera registros no banco. Para as
+faixas etárias, `pa_idade` é tratada em anos; `pa_flidade` indica compatibilidade
+da idade informada com a faixa prevista para o procedimento.
 
 ## Fontes e período
 

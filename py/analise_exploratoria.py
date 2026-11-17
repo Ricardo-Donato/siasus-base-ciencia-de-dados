@@ -47,8 +47,9 @@ def carregar_dados(connection) -> pd.DataFrame:
 def preparar_dados(tabela: pd.DataFrame) -> pd.DataFrame:
     """Converte medidas e monta uma data mensal quando possível.
 
-    ``pa_idade`` fica como campo categórico nesta etapa: sua interpretação
-    depende de ``pa_flidade``, que informa a unidade/código de idade do SIASUS.
+    ``pa_idade`` fica como campo categórico nesta etapa. ``pa_flidade`` é um
+    indicador de compatibilidade da idade com o procedimento, não uma unidade
+    de medida da idade.
     """
     tabela = tabela.copy()
     for coluna in COLUNAS_NUMERICAS:
@@ -197,6 +198,7 @@ def analisar(tabela: pd.DataFrame) -> None:
     agregacoes = [
         ("Estabelecimento", "=== Produção por estabelecimento (top 20) ==="),
         ("Procedimento", "=== Procedimentos por quantidade produzida (top 20) ==="),
+        ("Ocupacao", "=== Produção por ocupação/especialidade (top 20) ==="),
         ("pa_sexo", "=== Perfil por sexo ==="),
         ("Diagnostico", "=== Diagnósticos principais (top 20) ==="),
         ("MunicipioPaciente", "=== Municípios de origem (top 20) ==="),
@@ -212,7 +214,33 @@ def analisar(tabela: pd.DataFrame) -> None:
             .head(20)
             .reset_index()
         )
+        if dimensao in {"Procedimento", "Ocupacao"}:
+            if {"pa_valapr", "pa_qtdapr"}.issubset(resumo.columns):
+                resumo["GastoMedioAprovadoPorProcedimento"] = (
+                    resumo["pa_valapr"] / resumo["pa_qtdapr"].where(resumo["pa_qtdapr"].ne(0))
+                )
+            if {"pa_valpro", "pa_qtdpro"}.issubset(resumo.columns):
+                resumo["GastoMedioApresentadoPorProcedimento"] = (
+                    resumo["pa_valpro"] / resumo["pa_qtdpro"].where(resumo["pa_qtdpro"].ne(0))
+                )
         imprimir_tabela(titulo, resumo)
+
+    if {"pa_valapr", "pa_qtdapr"}.issubset(tabela.columns):
+        quantidade_aprovada = tabela["pa_qtdapr"].sum()
+        gasto_medio = (
+            tabela["pa_valapr"].sum() / quantidade_aprovada
+            if quantidade_aprovada > 0
+            else float("nan")
+        )
+        print(
+            "\nGasto médio aprovado por procedimento no período: "
+            f"R$ {gasto_medio:,.2f}"
+        )
+        if "AnoMes" in tabela.columns and tabela["AnoMes"].nunique() <= 1:
+            print(
+                "A evolução temporal do gasto médio não pode ser calculada: "
+                "a view contém apenas um mês."
+            )
 
     if "MunicipioPaciente" in tabela.columns:
         fora = tabela["MunicipioPaciente"].fillna("").str.strip().str.upper().ne("IJUI")

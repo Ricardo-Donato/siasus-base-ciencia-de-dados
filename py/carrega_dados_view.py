@@ -1,12 +1,23 @@
 import pandas as pd
-import conexao as conexao
+import conexao
 
-# Consulta SQL única para recuperar todas as colunas e linhas da VIEW.
-def carregar_dados(connection):
-    with connection.cursor() as cursor:
+def _consultar_view(connection):
+    """Consulta a view usando uma conexão já aberta."""
+    with connection.cursor(buffered=True) as cursor:
         cursor.execute("SELECT * FROM dbsia.pa_ijui")
-        return pd.DataFrame(cursor.fetchall(), columns=cursor.column_names)
+        colunas = cursor.column_names
+        registros = cursor.fetchall()
+    return pd.DataFrame(registros, columns=colunas)
 
-tabela = conexao.usar_conexao(carregar_dados)
 
-print(tabela.head(10))
+def carregar_dados(connection=None):
+    """Retorna a view; aceita conexão existente ou solicita uma conexão local."""
+    if connection is not None:
+        return _consultar_view(connection)
+    return conexao.usar_conexao(_consultar_view)
+
+
+if __name__ == "__main__":
+    tabela = carregar_dados()
+    if tabela is not None:
+        print(tabela.head(10))

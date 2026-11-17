@@ -14,12 +14,14 @@ SELECT
     ca.fantasia AS Estabelecimento,    
 
     -- 3. PROCEDIMENTO AMBULATORIAL    
+    pa.pa_proc_id AS PA_PROC_ID,
     pro.ip_dscr AS Procedimento,
 
     -- 4. OCUPAÇÃO PROFISSIONAL    
     cb.ds_cbo AS Ocupacao,
 
     -- 5. PERFIL DEMOGRÁFICO
+    pa.pa_tpups AS PA_TPUPS,
     pa.pa_sexo,
     pa.pa_idade,
     pa.pa_flidade,

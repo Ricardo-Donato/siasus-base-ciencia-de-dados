@@ -4,7 +4,10 @@ import matplotlib.pyplot as plt
 from carrega_dados_view import carregar_dados
 from preparacao_dados import preparar_dados
 
-df = preparar_dados(carregar_dados())
+dados = carregar_dados()
+if dados is None:
+    raise SystemExit("Não foi possível carregar dbsia.pa_ijui; confira a conexão MySQL.")
+df = preparar_dados(dados)
 
 oncologia = df[df["PA_PROC_ID"].str.startswith("0304")]
 

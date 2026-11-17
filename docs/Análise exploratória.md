@@ -1,4 +1,10 @@
-=== Dimensão e tipos ===
+# Relatório da análise exploratória
+
+Resultado integral da execução de `py/analise_exploratoria.py` no computador do Pedro. Os quadros foram mantidos como texto monoespaçado para preservar exatamente todos os rótulos, valores e espaçamentos dos dados originais.
+
+## Dimensão e tipos
+
+```text
 Registros: 65,521
 Colunas: 20
 
@@ -24,7 +30,11 @@ pa_valapr                          float64
 Data                        datetime64[us]
 AnoMes                              string
 
-=== Valores ausentes ===
+```
+
+## Valores ausentes
+
+```text
 Estabelecimento             65521
 Diagnostico                     9
 Ano                             0
@@ -49,7 +59,11 @@ AnoMes                          0
 Linhas duplicadas exatas: 26,265
 Duplicações são apenas contabilizadas; nenhum registro é removido.
 
-=== Estatísticas descritivas ===
+```
+
+## Estatísticas descritivas
+
+```text
           pa_qtdpro    pa_qtdapr     pa_valpro     pa_valapr
 count  65521.000000  65521.00000  65521.000000  65521.000000
 mean       7.827414      5.92845    103.260753    101.917093
@@ -60,7 +74,11 @@ min        0.000000      0.00000      0.000000      0.000000
 75%        1.000000      1.00000     17.670000     11.000000
 max     6284.000000   5337.00000  60741.370000  60741.370000
 
-=== Totais gerais ===
+```
+
+## Totais gerais
+
+```text
 pa_qtdpro     512860.00
 pa_qtdapr     388438.00
 pa_valpro    6765747.78
@@ -68,22 +86,38 @@ pa_valapr    6677709.85
 Diferença entre quantidade produzida e aprovada: 124,422
 Diferença entre valor produzido e aprovado: R$ 88,037.93
 
-=== Produção mensal ===
+```
+
+## Produção mensal
+
+```text
  AnoMes  Registros  QuantidadeProduzida  QuantidadeAprovada  ValorProduzido  ValorAprovado
 2026-07      65521             512860.0            388438.0      6765747.78     6677709.85
 
-=== Produção e valores nos períodos recentes ===
+```
+
+## Produção e valores nos períodos recentes
+
+```text
                Período         Intervalo  MesesComDados  Registros  pa_qtdpro  pa_qtdapr  pa_valpro  pa_valapr
       Mês mais recente 2026-07 a 2026-07              1      65521   512860.0   388438.0 6765747.78 6677709.85
  Bimestre mais recente 2026-07 a 2026-08              1      65521   512860.0   388438.0 6765747.78 6677709.85
 Trimestre mais recente 2026-07 a 2026-09              1      65521   512860.0   388438.0 6765747.78 6677709.85
 Períodos ancorados no mês mais recente encontrado na view; meses sem registros não entram nos totais.
 
-=== Produção por estabelecimento (top 20) ===
+```
+
+## Produção por estabelecimento (top 20)
+
+```text
  Estabelecimento  Registros  pa_qtdpro  pa_qtdapr  pa_valpro  pa_valapr
              NaN      65521   512860.0   388438.0 6765747.78 6677709.85
 
-=== Procedimentos por quantidade produzida (top 20) ===
+```
+
+## Procedimentos por quantidade produzida (top 20)
+
+```text
                                                                         Procedimento  Registros  pa_qtdpro  pa_qtdapr  pa_valpro  pa_valapr
                       FORMOTEROL 12 MCG + BUDESONIDA 400 MCG ÿ(POR CAPSULA INALANTE)       1654   102546.0    26590.0       0.00       0.00
                                                     GABAPENTINA 300 MG (POR CAPSULA)        366    28410.0    15000.0       0.00       0.00
@@ -106,13 +140,21 @@ CONSULTA DE PROFISSIONAIS DE NIVEL SUPERIOR NA ATENCAO ESPECIALIZADA (EXCETO MED
                                               ACOLHIMENTO COM CLASSIFICACAO DE RISCO          3     5520.0     5520.0       0.00       0.00
                                                DAPAGLIFLOZINA 10 MG (POR COMPRIMIDO)        181     5436.0     1500.0       0.00       0.00
 
-=== Perfil por sexo ===
+```
+
+## Perfil por sexo
+
+```text
 pa_sexo  Registros  pa_qtdpro  pa_qtdapr  pa_valpro  pa_valapr
       F      32080   229960.0   167189.0 3033418.92 3027180.11
       M      30763   169198.0   117278.0 3157701.49 3122539.74
       0       2678   113702.0   103971.0  574627.37  527990.00
 
-=== Diagnósticos principais (top 20) ===
+```
+
+## Diagnósticos principais (top 20)
+
+```text
                                        Diagnostico  Registros  pa_qtdpro  pa_qtdapr  pa_valpro  pa_valapr
                                  CID NAO INFORMADO      42970   159430.0   132844.0 1709130.10 1515233.33
                               CID NÃO IDENTIFICADO       1549    64323.0    34209.0  682545.24  682178.22
@@ -135,7 +177,11 @@ G40.0 Epilep sind epil idiop def loc cris inic foc         62     4506.0     382
         G30.0 Doenc de Alzheimer de inicio precoce         95     3732.0     3732.0       0.00       0.00
                         E78.4 Outr hiperlipidemias         98     3540.0     3540.0       0.00       0.00
 
-=== Municípios de origem (top 20) ===
+```
+
+## Municípios de origem (top 20)
+
+```text
  MunicipioPaciente  Registros  pa_qtdpro  pa_qtdapr  pa_valpro  pa_valapr
               IJUI      33034   159895.0   114993.0 1991066.35 1991950.73
           INVALIDO       2678   113702.0   103971.0  574627.37  527990.00
@@ -160,3 +206,4 @@ SAO VALERIO DO SUL        312     4434.0     2063.0   62387.79   61322.89
 
 Registros com município de origem diferente de Ijuí (ou não identificado): 32,487 de 65,521
 Observação: a contagem acima considera registros, não pacientes únicos; a view não identifica pacientes individualmente.
+```
