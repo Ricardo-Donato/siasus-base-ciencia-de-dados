@@ -1,7 +1,5 @@
 use dbsia;
 
-drop view if exists pa_ijui;
-
 CREATE OR REPLACE VIEW pa_ijui AS
 SELECT
     -- 1. DIMENSÃO TEMPORAL
