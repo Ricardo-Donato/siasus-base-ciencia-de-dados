@@ -17,21 +17,21 @@
 
 ## Dados necessários
 
-Os dados de produção PARS, necessários para gerar os indicadores, não estão incluídos nesta cópia do repositório. Acesse a página oficial de [Transferência de Arquivos do DATASUS](https://datasus.saude.gov.br/transferencia-de-arquivos/) e filtre os arquivos da produção ambulatorial do SIASUS pela competência **julho de 2026** e pela UF **RS** (veja o anexo abaixo). O arquivo esperado pelo padrão de nomes é `PARS2607a`.
+Os dados de produção PARS, necessários para gerar os indicadores, não estão incluídos nesta cópia do repositório. Acesse a página oficial de [Transferência de Arquivos do DATASUS](https://datasus.saude.gov.br/transferencia-de-arquivos/) e filtre os arquivos da produção ambulatorial do SIASUS pela competência **julho de 2026** e pela UF **RS** (veja o anexo abaixo). Baixe as duas partes do período: `PARS2607a` e `PARS2607b`.
 
 <img width="936" height="728" alt="image" src="https://github.com/user-attachments/assets/31dbee47-0413-4996-9988-32d9fa4107ac" />
 
-Os arquivos SIASUS também estão no diretório FTP `ftp://ftp.datasus.gov.br/dissemin/publicos/SIASUS/200801_/Dados/`. Procure por `PARS2607a` nesse diretório e copie para o seu computador.
+Os arquivos SIASUS também estão no diretório FTP `ftp://ftp.datasus.gov.br/dissemin/publicos/SIASUS/200801_/Dados/`. Procure por `PARS2607a` e `PARS2607b` nesse diretório e copie os dois para o computador.
 
-Em seguida, converta o arquivo DBC para DBF. Para fazer essa conversão, é necessário obter o `TABWIN415.zip` disponível no diretório FTP `ftp://ftp.datasus.gov.br/tabwin/tabwin/`.
+Converta cada arquivo DBC para DBF e depois para CSV. As instruções abaixo usam `dbf2dbc.exe` e `TabWin415.exe`, portanto se aplicam ao Windows. Para usá-las, obtenha o `TABWIN415.zip` no diretório FTP `ftp://ftp.datasus.gov.br/tabwin/tabwin/`.
 <img width="944" height="435" alt="image" src="https://github.com/user-attachments/assets/bc45719e-5631-4cfb-93ca-c84a54c9b454" />
 
-Copie para o seu computador, descompacte, acesse essa pasta e arraste o arquivo DBC sobre o app dbf2dbc.exe. Com ele convertido para DBF, use a interface do `TabWin415.exe` para ver o DBF e converta para o csv no botão localizado no canto superior esquerdo da aplicação.
+Descompacte o arquivo, abra a pasta e arraste cada DBC sobre `dbf2dbc.exe`. Depois, abra cada DBF no `TabWin415.exe` e exporte para CSV pelo botão no canto superior esquerdo.
 
 <img width="102" height="93" alt="image" src="https://github.com/user-attachments/assets/d13aaf72-499d-484b-99fc-457638e32fdc" />
 
 
-O exemplo em [`carregar_dados_tabela_pars.sql`](scripts_gerais/carregar_dados_tabela_pars.sql) espera um único `PARS2607.csv`. Não se esqueça de ajustar o caminho local conforme a configuração do servidor MySQL. Os CSVs em `arquivos_convertidos/csv/` são tabelas auxiliares de municípios, não substituem o PARS.
+Depois de converter as duas partes, una os registros em um único `PARS2607.csv`. Mantenha o cabeçalho do CSV gerado a partir de `PARS2607a` e remova o cabeçalho do arquivo gerado a partir de `PARS2607b` antes de juntá-los. O exemplo em [`carregar_dados_tabela_pars.sql`](scripts_gerais/carregar_dados_tabela_pars.sql) espera esse arquivo único. Ajuste o caminho local conforme a configuração do servidor MySQL. Os CSVs em `arquivos_convertidos/csv/` são tabelas auxiliares de municípios e não substituem o PARS.
 
 ## Preparação do MySQL
 
