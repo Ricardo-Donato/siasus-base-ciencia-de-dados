@@ -17,28 +17,34 @@ gestão municipal de saúde de Ijuí/RS.
   estabelecimentos localizados em Ijuí e dimensões descritivas.
 - `T3 - Análise e Visualização SIASUS.ipynb`: fluxo principal, unificado e
   explicado de exploração, preparação, indicadores, tabelas e gráficos.
-- `Etapas 2 e 3 - Pandas e Visualizacao - DBSIA (1).ipynb`: notebook de
-  referência usado como inspiração para a organização das análises.
-- `py/analise_exploratoria.py`: exploração inicial e resumos por período,
-  estabelecimento, procedimento, ocupação, gasto médio, sexo, diagnóstico e
-  município de origem.
-- `py/analise_diagnosticos.py`, `py/analise_perfil_demografico.py` e
-  `py/analise_areas_criticas.py`: análises complementares e gráficos.
-- `py/preparacao_dados.py` e `py/carrega_dados_view.py`: preparação e carga
-  reutilizável dos dados da view pelos scripts complementares.
-- `analises_geradas/csv/`: tabelas CSV geradas pelos scripts e pelo notebook.
-- `analises_geradas/img/`: gráficos PNG gerados pelos scripts e pelo notebook.
-- `py/conexao.py`: conexão local com MySQL usada pelos scripts Python.
+- `analises_geradas/csv/`: tabelas CSV produzidas pelas análises. A pasta pode
+  conter saídas de execuções anteriores dos scripts Python e do notebook.
+- `analises_geradas/img/`: gráficos PNG produzidos pelas análises. A pasta pode
+  conter saídas de execuções anteriores dos scripts Python e do notebook.
 - `arquivos_convertidos/`: tabelas auxiliares convertidas para CSV, DBF, DBC e
   SQL.
 
 ## Dados necessários
 
-Os dados de produção PARS são necessários para gerar os indicadores. Os arquivos
-PARS não estão incluídos nesta cópia do repositório; o exemplo de carga usa um
-CSV chamado `PARS2607.csv`, que deve ser substituído pelo arquivo e período
-fornecidos ao grupo. Os CSVs em `arquivos_convertidos/csv/` são tabelas
-auxiliares de municípios, não substituem o PARS.
+Os dados de produção PARS são necessários para gerar os indicadores e não estão
+incluídos nesta cópia do repositório. Acesse a página oficial de
+[Transferência de Arquivos do DATASUS](https://datasus.saude.gov.br/transferencia-de-arquivos/)
+e filtre os arquivos da produção ambulatorial do SIASUS pela competência
+**julho de 2026** e pela UF **RS**. O arquivo esperado pelo padrão de nomes é
+`PARS2607`, dividido em `PARS2607a.dbc` e `PARS2607b.dbc`. Baixe as duas partes
+para incluir todos os registros do período.
+
+Como alternativa, os arquivos SIASUS também podem ser explorados no diretório
+FTP [`SIASUS/200801_/Dados/`](ftp://ftp.datasus.gov.br/dissemin/publicos/SIASUS/200801_/Dados/).
+
+Converta os dois DBCs para CSV. O exemplo em
+[`carregar_dados_tabela_pars.sql`](scripts_gerais/carregar_dados_tabela_pars.sql)
+espera um único `PARS2607.csv`; combine nele as linhas dos dois CSVs, mantendo
+somente um cabeçalho. Como alternativa, ajuste o SQL para carregar cada CSV
+separadamente, ignorando o cabeçalho de cada arquivo. Em ambos os casos, ajuste
+o caminho local conforme a configuração do servidor MySQL.
+Os CSVs em `arquivos_convertidos/csv/` são tabelas auxiliares de municípios,
+não substituem o PARS.
 
 ## Preparação do MySQL
 
@@ -54,9 +60,17 @@ Use MySQL 8 para os scripts fornecidos. A ordem geral de preparação é:
 
 **Atenção:** `script_completo_dbsia.sql` começa com `DROP DATABASE IF EXISTS
 dbsia`; executá-lo apaga e recria esse banco. Faça isso apenas em uma instalação
-que possa ser recriada ou depois de salvar o que precisa preservar. A carga PARS
-depende do CSV estar acessível ao servidor MySQL e das permissões de `LOAD DATA
-INFILE`.
+que possa ser recriada ou depois de salvar o que precisa preservar. O script
+apaga e recria a tabela `dbsia.pars`.
+A carga PARS depende do CSV estar acessível ao servidor MySQL e das permissões
+de `LOAD DATA INFILE`.
+
+Depois da carga, o script `carregar_dados_tabela_pars.sql` consulta a quantidade
+de registros em `dbsia.pars`. Também é possível conferir manualmente:
+
+```sql
+SELECT COUNT(*) AS total_registros FROM dbsia.pars;
+```
 
 ## Executar as análises no notebook
 
@@ -78,9 +92,8 @@ versão atual de `scripts_gerais/view.sql`. A view precisa incluir `PA_PROC_ID`
 e `PA_TPUPS`. A preparação converte `pa_idade` em faixas etárias e preserva
 `pa_flidade` como indicador de compatibilidade da idade com o procedimento.
 
-Os scripts em `py/` foram mantidos como implementações separadas e podem ser
-usados para reproduzir análises individuais; o notebook é o fluxo recomendado
-para executar e apresentar a análise consolidada.
+O notebook é o fluxo executável de análise mantido no repositório. Ele carrega a
+view uma vez e gera as tabelas e gráficos consolidados.
 
 O ranking por estabelecimento depende do preenchimento correto da junção com a
 tabela CNES. Se `Estabelecimento` estiver ausente, o notebook registra essa

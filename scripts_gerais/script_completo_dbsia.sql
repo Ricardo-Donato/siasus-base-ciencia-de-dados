@@ -2,7 +2,7 @@ DROP DATABASE IF EXISTS dbsia;
 CREATE DATABASE dbsia;
 USE dbsia;
 
-DROP DATABASE IF EXISTS pars;
+DROP TABLE IF EXISTS pars;
 CREATE TABLE pars(
   pa_coduni  char(7),
   pa_gestao  char(6),
