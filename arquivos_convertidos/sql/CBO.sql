@@ -56,7 +56,7 @@ INSERT INTO CBO VALUES('111345','Juiz do Trabalho');
 INSERT INTO CBO VALUES('111405','Dirigente do servico publico federal');
 INSERT INTO CBO VALUES('111410','Dirigente do servico publico estadual e distrital');
 INSERT INTO CBO VALUES('111415','Dirigente do servico publico municipal');
-INSERT INTO CBO VALUES('111505','Especialista de politicas publicas e gestao governamental ¶ù EPPGG');
+INSERT INTO CBO VALUES('111505','Especialista de politicas publicas e gestao governamental ï¿½ï¿½ EPPGG');
 INSERT INTO CBO VALUES('111510','Analista de planejamento e orcamento - APO');
 INSERT INTO CBO VALUES('113005','Cacique');
 INSERT INTO CBO VALUES('113010','Lider de comunidade caicara');
